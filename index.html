@@ -202,7 +202,9 @@
   .gem-intro { display: grid; grid-template-columns: 120px minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; margin-top: 54px; padding-bottom: 46px; border-bottom: 1px solid var(--line); }
   .gem-intro > * { transition: opacity .5s, transform .7s var(--ease); }
   .gem-intro.swap > * { opacity: 0; transform: translateY(16px); }
-  .facet { width: 104px; aspect-ratio: 1; position: relative; filter: drop-shadow(0 18px 22px rgba(20,33,61,.25)); }
+  .facet { width: 104px; aspect-ratio: 1; position: relative; isolation: isolate; }
+  /* soft oval shadow under the gem — drawn as a gradient, so no browser can turn it into a box */
+  .facet::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: -14%; height: 16%; border-radius: 50%; background: radial-gradient(closest-side, rgba(20,33,61,.28), transparent); z-index: -1; }
   .facet .stone { position: absolute; inset: 0; clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); background:
       conic-gradient(from var(--a, 0deg), color-mix(in srgb, var(--hue) 55%, white) 0 12.5%, var(--hue) 0 25%, color-mix(in srgb, var(--hue) 60%, black) 0 37.5%, color-mix(in srgb, var(--hue) 80%, white) 0 50%, var(--hue) 0 62.5%, color-mix(in srgb, var(--hue) 50%, black) 0 75%, color-mix(in srgb, var(--hue) 70%, white) 0 87.5%, var(--hue) 0); animation: turn 16s linear infinite; }
   .facet .table { position: absolute; inset: 27%; clip-path: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%); background: linear-gradient(135deg, color-mix(in srgb, var(--hue) 40%, white), var(--hue) 55%, color-mix(in srgb, var(--hue) 70%, black)); }
