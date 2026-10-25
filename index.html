@@ -39,6 +39,8 @@
     color-scheme: light;
   }
   * { box-sizing: border-box; }
+  /* closed panels must not sit invisibly over the page (plain browsers let display:grid override [hidden]) */
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--ivory); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
