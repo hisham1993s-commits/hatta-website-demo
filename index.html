@@ -122,12 +122,20 @@
   .hero .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s var(--ease); }
   .hero .slide.on { opacity: 1; }
   .hero .slide img { width: 100%; height: 100%; object-fit: cover; }
-  /* each campaign photo starts slightly close and slowly pulls back to the full frame */
-  .hero .slide.on img { animation: zoomout 7s cubic-bezier(.25,.1,.25,1) both; }
-  @keyframes zoomout { from { transform: scale(1.1); } to { transform: scale(1); } }
+  /* campaign photos: each one pulls back (or drifts) slowly while it is on screen */
+  .hero .slide img { transform-origin: var(--o, 50% 50%); }
+  .hero.go .slide.on img { animation: var(--kb, zoomout) 8s cubic-bezier(.2,.6,.3,1) both; }
+  @keyframes zoomout { from { transform: scale(1.16); } to { transform: scale(1); } }
+  @keyframes drift { from { transform: scale(1.14) translateX(-3%); } to { transform: scale(1.03) translateX(1.5%); } }
+  .hero .cap .eyebrow, .hero .cap h1 { transition: opacity .6s, transform .8s var(--ease); }
+  .hero .cap.swap .eyebrow, .hero .cap.swap h1 { opacity: 0; transform: translateY(14px); }
+  /* model photos: a slow pull-back as they scroll into view */
+  .mv { overflow: hidden; }
+  .mv.in img, img.mv.in { animation: unveil 2.4s cubic-bezier(.2,.6,.3,1) both; }
+  @keyframes unveil { from { transform: scale(1.16); clip-path: inset(12% 0 12% 0); opacity: .4; } to { transform: scale(1); clip-path: inset(0 0 0 0); opacity: 1; } }
   .hero .cap { text-align: center; color: var(--ivory); padding-block: clamp(28px, 4vw, 44px) clamp(22px, 3vw, 32px); padding-left: var(--gutter); padding-right: var(--gutter-r); border-bottom: 1px solid rgba(220,199,154,.25); }
   .hero .cap .eyebrow { color: var(--gold-soft); }
-  .hero .cap h1 { font: 300 clamp(28px, 4vw, 54px)/1.1 var(--en); margin-top: 12px; letter-spacing: .02em; }
+  .hero .cap h1 { font: 300 clamp(28px, 4vw, 54px)/1.1 "Cormorant Garamond", "Noto Serif TC", Georgia, serif; margin-top: 12px; letter-spacing: .02em; }
   .hero .dots { display: flex; justify-content: center; gap: 10px; margin-top: 22px; }
   .hero .dots button { width: 38px; height: 14px; position: relative; }
   .hero .dots button::before, .hero .dots button::after { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: rgba(250,247,241,.4); }
@@ -374,13 +382,13 @@
   <!-- HERO -->
   <section class="hero" id="hero" aria-label="Campaign">
     <div class="stage">
-      <div class="slide on"><img src="img/hero.jpg" alt="Hatta New World campaign, Taipei and Hong Kong"></div>
-      <div class="slide"><img src="img/coll.jpg" alt="Models wearing Hatta high jewellery" style="object-position:50% 35%"></div>
-      <div class="slide"><img src="img/m1.jpg" alt="Hatta bridal show" style="object-position:50% 25%"></div>
+      <div class="slide on" data-eye="Hatta New World · Taipei · Hong Kong" data-title="An Empire of Beauty and Rarity"><img src="img/hero.jpg?v=3" alt="Hatta New World campaign, Taipei and Hong Kong"></div>
+      <div class="slide" style="--kb:drift" data-eye="High Jewelry" data-title="The Colour of Every Emotion"><img src="img/coll.jpg?v=3" alt="Models wearing Hatta high jewellery" style="object-position:50% 35%"></div>
+      <div class="slide" style="--o:50% 20%" data-eye="Bridal &amp; Engagement" data-title="永恆之美 · Timeless Beauty"><img src="img/m1.jpg?v=3" alt="Hatta bridal show" style="object-position:50% 25%"></div>
     </div>
     <div class="cap">
-      <div class="eyebrow">Hatta New World · Taipei · Hong Kong</div>
-      <h1>An Empire of Beauty and Rarity</h1>
+      <div class="eyebrow" id="heroEye">Hatta New World · Taipei · Hong Kong</div>
+      <h1 id="heroTitle">An Empire of Beauty and Rarity</h1>
       <div class="dots" id="heroDots"><button class="on" aria-label="Slide 1"></button><button aria-label="Slide 2"></button><button aria-label="Slide 3"></button></div>
     </div>
   </section>
@@ -412,11 +420,11 @@
 
   <!-- STORIES -->
   <section class="stories" id="stories">
-    <article class="story"><div class="bg"><img src="img/ed25.jpg" alt="" loading="lazy" style="object-position:50% 58%"></div>
+    <article class="story"><div class="bg mv"><img src="img/ed25.jpg?v=3" alt="" loading="lazy" style="object-position:50% 58%"></div>
       <div class="t"><h2 class="h-zh rv">璀璨珠寶</h2><div class="sub-zh rv" style="--d:.1s">奢華的雄辯標準</div><h3 class="rv" style="--d:.2s">哈塔的珍寶</h3>
         <p class="rv" style="--d:.3s">精美的設計概念與精緻的工藝，匯集頂尖珠寶匠人的匠心，以及百年珠寶作品的傳承與創新。每件作品都蘊藏著極大的靈感。</p>
         <a class="btn light rv" style="--d:.4s" href="#stories">View Full Collection</a></div></article>
-    <article class="story"><div class="bg"><img src="img/a.jpg" alt="" loading="lazy" style="object-position:45% 30%"></div>
+    <article class="story"><div class="bg mv"><img src="img/a.jpg?v=3" alt="" loading="lazy" style="object-position:45% 30%"></div>
       <div class="t"><h2 class="h-zh rv">永恆之美</h2><div class="sub-zh rv" style="--d:.1s">極為重要的新娘套房</div><h3 class="rv" style="--d:.2s">玫瑰人生</h3>
         <p class="rv" style="--d:.3s">自1972年以來，哈塔新世界秉持透明的理念，打造了精美絕倫的珠寶傑作，以突破性的方式承載空靈精美的系列作品，引領了珠寶潮流。</p>
         <a class="btn light rv" style="--d:.4s" href="#stories">View Full Collection</a></div></article>
@@ -436,7 +444,7 @@
 
   <!-- SERIES -->
   <section class="series">
-    <figure><img src="img/d21.jpg" alt="" loading="lazy" style="object-position:35% 50%"></figure>
+    <figure class="mv"><img src="img/d21.jpg?v=3" alt="" loading="lazy" style="object-position:35% 50%"></figure>
     <div class="mid">
       <div class="eyebrow rv">珠寶系列</div>
       <h2 class="h-zh rv" style="--d:.1s">永恆珠寶</h2>
@@ -447,7 +455,7 @@
       <p class="rv" style="--d:.2s">本季，Hatta推出了一系列令人驚嘆的系列，塑造優雅氣質，完美塑造女性柔美。設計精巧，閃耀奪目，工藝精湛。</p>
       <a class="btn light rv" style="--d:.3s;margin-top:14px" href="#collections">View Full Collection</a>
     </div>
-    <figure><img src="img/d20.jpg" alt="" loading="lazy" style="object-position:40% 50%"></figure>
+    <figure class="mv"><img src="img/d20.jpg?v=3" alt="" loading="lazy" style="object-position:40% 50%"></figure>
   </section>
 
   <!-- FAB -->
@@ -465,11 +473,11 @@
   <!-- TESTIMONIAL -->
   <section class="testi">
     <div class="wrap">
-      <img class="rv" src="img/d26.jpg" alt="" loading="lazy">
+      <img class="mv" src="img/d26.jpg?v=3" alt="" loading="lazy">
       <div class="q"><div class="eyebrow rv">When Extravagant Designs Meet Dazzling Jewels</div><div class="mark" aria-hidden="true">“</div>
         <p class="rv" style="--d:.1s">這個珠寶交易讓我把藍寶石般的湖泊戴在指尖，把翠綠的寶石定位到頸間，把黃水晶般的日落對應。如果我需要加班，沒有什麼比得上縵瑪瑙般的夜空下，鑽石般的星星和珍珠般的滿月。</p>
         <b class="rv" style="--d:.2s">— Astrid Alauda</b></div>
-      <img class="rv" style="--d:.15s" src="img/d27.jpg" alt="" loading="lazy">
+      <img class="mv" style="animation-delay:.2s" src="img/d27.jpg?v=3" alt="" loading="lazy">
     </div>
   </section>
 
@@ -531,7 +539,7 @@
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: .15 });
-    document.querySelectorAll('.rv').forEach(el => io.observe(el));
+    document.querySelectorAll('.rv, .mv').forEach(el => io.observe(el));
   }
 
   /* mobile menu */
@@ -544,16 +552,22 @@
   /* hero slideshow */
   const slides = [...document.querySelectorAll('#hero .slide')];
   const dots = [...document.querySelectorAll('#heroDots button')];
+  const hero = document.getElementById('hero'), cap = hero.querySelector('.cap');
   let h = 0, hTimer;
   const showHero = i => {
     slides[h].classList.remove('on'); dots[h].classList.remove('on');
     h = (i + slides.length) % slides.length;
     slides[h].classList.add('on');
+    cap.classList.add('swap');
+    setTimeout(() => { document.getElementById('heroEye').textContent = slides[h].dataset.eye; document.getElementById('heroTitle').textContent = slides[h].dataset.title; cap.classList.remove('swap'); }, 500);
     void dots[h].offsetWidth; dots[h].classList.add('on');
     clearTimeout(hTimer); hTimer = setTimeout(() => showHero(h + 1), 7000);
   };
   dots.forEach((d, i) => d.onclick = () => showHero(i));
-  hTimer = setTimeout(() => showHero(1), 7000);
+  /* start the first pull-back only once its photo has loaded, so it is actually seen */
+  const first = slides[0].querySelector('img');
+  const go = () => { hero.classList.add('go'); clearTimeout(hTimer); hTimer = setTimeout(() => showHero(1), 7000); };
+  first.complete ? go() : (first.addEventListener('load', go), first.addEventListener('error', go));
 
   /* feature slider — original slide titles and copy */
   const F = [
